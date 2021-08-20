@@ -3,12 +3,19 @@
  */
 package groovybox
 
-class App {
-    String getGreeting() {
-        return 'Hello World!'
-    }
+import vps.performance_testing.appian.ResponseProcessor
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 
+class App {
     static void main(String[] args) {
-        println new App().greeting
+        String responsePath = System.getProperty('user.dir') + '/src/resources/response.json'
+        String res = new File(responsePath).text
+
+        def processor = new ResponseProcessor(res, null, null)        
+
+		def documents = processor.getObjectsOfType('MultiColumnLayout')
+
+		println(JsonOutput.toJson(documents))
     }
 }
